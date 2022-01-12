@@ -1,0 +1,39 @@
+.note--board {
+  display: flex;
+  flex: 1 200px;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: ;
+  padding: 2% 5% 2% 5%;
+  gap: 40px;
+}
+
+.note-container {
+  display: flex;
+  flex: 1 50%;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 2% 5% 2% 5%;
+  gap: 40px;
+  background-color: #efefef;
+}
+
+.form-button {
+  display: inline;
+  margin: rem 0;
+  border: 0;
+  width: 150px;
+  background: #510077;
+  translate: 20%;
+  padding: 10px;
+  color: #f8f8f8;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

@@ -1,0 +1,21 @@
+.board--body {
+  display: flex;
+  flex: 1 200px;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+.board {
+  padding: 2% 5% 5% 5%;
+  background-color: #efefef;
+}
+
+.board--group {
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  border-radius: 50px;
+  color: #fff;
+  background-color: #777;
+}
