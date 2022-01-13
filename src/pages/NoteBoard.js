@@ -172,6 +172,7 @@ const NoteBoard = (props) => {
 
   const onEditNote = (note) => {
     setEditNote(!editNote);
+    setCreateNote(false);
   };
 
   const editDetails = (note) => {
@@ -219,7 +220,10 @@ const NoteBoard = (props) => {
       <div className="button-container">
         <button
           className="form-button"
-          onClick={() => setCreateNote(!createNote)}
+          onClick={() => {
+            setCreateNote(!createNote);
+            setEditNote(false);
+          }}
         >
           {createNote ? "Close" : "Create Note"}
         </button>
