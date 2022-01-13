@@ -105,6 +105,7 @@ const NoteBoard = (props) => {
   // sort and collect notes by group
 
   const [noteByGroup, setNotebyGroup] = useState({});
+
   useEffect(() => {
     const noteByGroup = {};
     noteData.forEach((note) => {
@@ -115,6 +116,42 @@ const NoteBoard = (props) => {
     });
     setNotebyGroup(noteByGroup);
   }, [noteData]);
+
+  const [sortedNoteData, setSortedNoteData] = useState([]);
+  useEffect(() => {
+    // sort noteData by user
+    // make a copy on noteData
+
+    const sortedData = [...noteData].sort((a, b) => {
+      if (a.user < b.user) {
+        return -1;
+      }
+      if (a.user > b.user) {
+        return 1;
+      }
+      return 0;
+    });
+    setSortedNoteData(sortedData);
+  }, [noteData]);
+
+  const [sortedGroupedNoteData, setSortedGroupedNoteData] = useState([]);
+  useEffect(() => {
+    // sort data within each group of noteByGroup
+    let groupedData = {};
+
+    for (const group in { ...noteByGroup }) {
+      groupedData[group] = { ...noteByGroup }[group].sort((a, b) => {
+        if (a.user < b.user) {
+          return -1;
+        }
+        if (a.user > b.user) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    setSortedGroupedNoteData(groupedData);
+  }, [noteByGroup]);
 
   const onAddNote = (note) => {
     console.log(note);
@@ -155,6 +192,8 @@ const NoteBoard = (props) => {
   const [editNote, setEditNote] = useState(false);
 
   const [createNote, setCreateNote] = useState(false);
+
+  const [sortUserWise, setSortUserWise] = useState(false);
   return (
     <>
       <div className="button-container">
@@ -177,18 +216,27 @@ const NoteBoard = (props) => {
 
         <button
           className="form-button"
-          onClick={() => setSortGroupWise(!sortGroupWise)}
+          onClick={() => setSortGroupWise((prev) => !prev)}
         >
           {!sortGroupWise ? "Sort by Group" : "Show All"}
+        </button>
+
+        <button
+          className="form-button"
+          onClick={() => setSortUserWise((prev) => !prev)}
+        >
+          {!sortUserWise ? "Sort by User" : "Sort by time"}
         </button>
       </div>
       <div className="note--board">
         {sortGroupWise &&
-          Object.keys(noteByGroup).map(
+          Object.keys(sortUserWise ? sortedGroupedNoteData : noteByGroup).map(
             (group) =>
               sortGroupWise && (
                 <Board key={group} group={group}>
-                  {noteByGroup[group].map((note) => (
+                  {(sortUserWise ? sortedGroupedNoteData : noteByGroup)[
+                    group
+                  ].map((note) => (
                     <Note
                       key={note.key}
                       note={note}
@@ -206,7 +254,7 @@ const NoteBoard = (props) => {
           )}
         {!sortGroupWise && (
           <Board group="All">
-            {noteData.map((note) => (
+            {(sortUserWise ? sortedNoteData : noteData).map((note) => (
               <Note
                 key={note.key}
                 note={note}
