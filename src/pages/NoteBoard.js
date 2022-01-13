@@ -108,12 +108,16 @@ const NoteBoard = (props) => {
 
   useEffect(() => {
     const noteByGroup = {};
+    // console.log(noteData);
     noteData.forEach((note) => {
+      // console.log(note);
       if (!noteByGroup[note.group]) {
         noteByGroup[note.group] = [];
       }
+      //push the note at end of the array
       noteByGroup[note.group].push(note);
     });
+    // console.log(noteByGroup);
     setNotebyGroup(noteByGroup);
   }, [noteData]);
 
@@ -194,8 +198,24 @@ const NoteBoard = (props) => {
   const [createNote, setCreateNote] = useState(false);
 
   const [sortUserWise, setSortUserWise] = useState(false);
+  // console.log("noteData\n", noteData);
+  // console.log("noteByGroup\n", noteByGroup);
+  // console.log("sortedNoteData\n", sortedNoteData);
+  // console.log("sortedGroupedNoteData\n", sortedGroupedNoteData);
+
   return (
     <>
+      {editNote && !createNote && (
+        <div className="note-container">
+          <EditNote addNote={editDetails} />
+        </div>
+      )}
+      {createNote && !editNote && (
+        <div className="note-container">
+          <CreateNote addNote={onAddNote} />
+        </div>
+      )}
+
       <div className="button-container">
         <button
           className="form-button"
@@ -203,16 +223,6 @@ const NoteBoard = (props) => {
         >
           {createNote ? "Close" : "Create Note"}
         </button>
-        {createNote && (
-          <div className="note-container">
-            <CreateNote addNote={onAddNote} />
-          </div>
-        )}
-        {editNote && (
-          <div className="note-container">
-            <EditNote addNote={editDetails} />
-          </div>
-        )}
 
         <button
           className="form-button"
